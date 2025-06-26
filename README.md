@@ -265,8 +265,6 @@ git push origin fitur-tampilan-baru
 
 Lalu buka PR ke `Alghifari888/sistem_cuti_karyawan`, pilih branch `Views` atau `main`.
 
----
-
 Terima kasih telah berkontribusi! 🙌
 
-```
+
