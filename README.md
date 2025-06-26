@@ -1,8 +1,7 @@
-````markdown
-<div align="center">
+
 
 # 💼 Sistem Informasi Manajemen Cuti Karyawan (PHP Native)
-</div>
+
 
 Sistem Informasi Manajemen Cuti Karyawan adalah aplikasi web sederhana berbasis **PHP Native** (tanpa framework) yang dirancang untuk mengelola proses **pengajuan dan persetujuan cuti karyawan**. Aplikasi ini menggunakan **MySQL** sebagai basis data dan **Bootstrap 5** untuk antarmuka pengguna yang responsif.
 
