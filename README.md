@@ -4,6 +4,9 @@ Sistem Informasi Manajemen Cuti Karyawan adalah aplikasi web sederhana berbasis 
 
 ---
 
+![admin Dashboard](gambar1.png)
+![user Dashboard](gambar2.png)
+
 ## ✨ Fitur Utama
 
 Aplikasi memiliki dua jenis role dengan akses berbeda:
