@@ -1,108 +1,95 @@
-Sistem Informasi Manajemen Cuti Karyawan (PHP Native)
-Aplikasi web sederhana berbasis PHP Native untuk mengelola proses pengajuan dan persetujuan cuti karyawan. Aplikasi ini dibangun tanpa menggunakan framework PHP, hanya mengandalkan PHP Native, MySQL sebagai database, dan Bootstrap 5 untuk tampilan antarmuka yang responsif. Proyek ini cocok untuk dipelajari oleh pemula yang ingin memahami konsep dasar pengembangan web dengan PHP.
+# 💼 Sistem Informasi Manajemen Cuti Karyawan (PHP Native)
 
-✨ Fitur Utama
-Aplikasi ini memiliki dua hak akses (role) dengan fitur yang berbeda: Admin dan Karyawan (User).
+Sistem Informasi Manajemen Cuti Karyawan adalah aplikasi web sederhana berbasis **PHP Native** (tanpa framework) yang dirancang untuk mengelola proses **pengajuan dan persetujuan cuti karyawan**. Aplikasi ini menggunakan **MySQL** sebagai basis data dan **Bootstrap 5** untuk antarmuka pengguna yang responsif. Cocok digunakan sebagai pembelajaran bagi pemula yang ingin memahami konsep dasar pengembangan web menggunakan PHP.
 
-👨‍💼 Fitur untuk Admin
-Dashboard Admin: Menampilkan ringkasan statistik seperti total karyawan, jumlah pengajuan cuti bulan ini, total cuti yang disetujui, dan yang masih menunggu konfirmasi.
+---
 
-Manajemen Karyawan (CRUD):
+## ✨ Fitur Utama
 
-Create: Menambah data karyawan baru. NIK dan tanggal bergabung dapat terisi otomatis.
+Aplikasi memiliki dua jenis role dengan akses berbeda:
 
-Read: Melihat daftar semua karyawan dalam bentuk tabel.
+### 👨‍💼 Admin
 
-Update: Mengubah data karyawan.
+* **Dashboard**: Menampilkan statistik seperti total karyawan, pengajuan cuti bulan ini, jumlah cuti disetujui, dan menunggu persetujuan.
+* **Manajemen Karyawan (CRUD)**:
 
-Delete: Menghapus data karyawan.
+  * Tambah, lihat, edit, dan hapus data karyawan.
+  * NIK dan tanggal bergabung terisi otomatis saat input.
+* **Manajemen Pengajuan Cuti**:
 
-Manajemen Cuti:
+  * Lihat semua pengajuan cuti.
+  * Detail pengajuan + catatan.
+  * Verifikasi cuti: Setujui atau tolak.
+* **Export Data**:
 
-Melihat semua riwayat pengajuan cuti dari seluruh karyawan, diurutkan berdasarkan status (pengajuan baru paling atas).
+  * Ekspor data karyawan ke file Excel (`.xls`).
 
-Melihat detail setiap pengajuan cuti.
+### 👩‍🔧 Karyawan (User)
 
-Verifikasi Cuti: Menyetujui atau menolak pengajuan cuti dan memberikan catatan.
+* **Dashboard Pribadi**: Ringkasan pengajuan cuti (diajukan, disetujui, ditolak, menunggu).
+* **Pengajuan Cuti**: Isi formulir pengajuan cuti baru.
+* **Riwayat Cuti**:
 
-Export Data: Mengekspor daftar data karyawan ke dalam format file Microsoft Excel (.xls).
+  * Lihat histori dan status pengajuan.
+  * Lihat catatan dari admin.
+  * Batalkan pengajuan selama status masih “Diajukan”.
+* **Manajemen Profil**:
 
-👩‍🔧 Fitur untuk Karyawan (User)
-Dashboard User: Menampilkan ringkasan status pengajuan cuti pribadi (total diajukan, disetujui, ditolak, menunggu).
+  * Lihat data pribadi.
+  * Ubah password.
 
-Pengajuan Cuti: Mengisi dan mengirimkan formulir pengajuan cuti baru.
+---
 
-Riwayat Cuti:
+## 🛠️ Teknologi yang Digunakan
 
-Melihat seluruh riwayat pengajuan cuti pribadi beserta statusnya.
+| Komponen     | Teknologi        |
+| ------------ | ---------------- |
+| Backend      | PHP 8.x (Native) |
+| Database     | MySQL / MariaDB  |
+| Frontend     | HTML, CSS        |
+| UI Framework | Bootstrap 5.3    |
+| Icon Set     | Bootstrap Icons  |
 
-Melihat catatan dari admin terkait pengajuan yang disetujui atau ditolak.
+---
 
-Membatalkan Cuti: Dapat membatalkan pengajuan cuti selama statusnya masih "Diajukan".
+## 📋 Spesifikasi Sistem
 
-Manajemen Profil:
+* Web Server: Apache (disarankan: XAMPP / WAMP)
+* PHP: Versi 8.0 atau lebih tinggi
+* Database Server: MySQL / MariaDB
+* Browser: Google Chrome, Firefox, atau browser modern lainnya
 
-Melihat data pribadi.
+---
 
-Mengubah password untuk keamanan akun.
+## 🚀 Panduan Instalasi
 
-🛠️ Teknologi yang Digunakan
-Backend: PHP 8.x (Native, tanpa framework)
+### 1. Unduh / Clone Proyek
 
-Database: MySQL / MariaDB
+* Letakkan folder proyek (misal: `cuti-karyawan`) di dalam direktori `htdocs` XAMPP.
+  **Contoh**: `C:\xampp\htdocs\cuti-karyawan`
 
-Frontend: HTML, CSS
+### 2. Buat Database
 
-UI Framework: Bootstrap 5.3
+1. Buka `http://localhost/phpmyadmin`
+2. Buat database baru: `db_cuti_karyawan`
+3. Jalankan skrip SQL berikut:
 
-Icons: Bootstrap Icons
-
-📋 Spesifikasi & Kebutuhan Sistem
-Web Server: Apache (disarankan menggunakan XAMPP atau WAMP).
-
-PHP: Versi 8.0 atau lebih tinggi.
-
-Database Server: MySQL atau MariaDB.
-
-Web Browser: Google Chrome, Firefox, atau browser modern lainnya.
-
-🚀 Cara Instalasi & Konfigurasi
-Ikuti langkah-langkah berikut untuk menjalankan aplikasi ini di komputer lokal Anda.
-
-1. Unduh atau Clone Proyek
-Unduh dan ekstrak file ZIP proyek ini, atau clone repositori jika menggunakan Git.
-
-Letakkan seluruh folder proyek (misalnya cuti-karyawan) ke dalam direktori htdocs di dalam folder instalasi XAMPP Anda. (Contoh: C:\xampp\htdocs\cuti-karyawan)
-
-2. Buat Database
-Buka phpMyAdmin melalui browser (http://localhost/phpmyadmin).
-
-Buat database baru dengan nama db_cuti_karyawan.
-
-Pilih database yang baru dibuat, lalu buka tab SQL.
-
-Salin dan tempel seluruh kode SQL di bawah ini, lalu klik Go atau Kirim.
-
--- Membuat Database (jika belum ada)
+```sql
 CREATE DATABASE IF NOT EXISTS db_cuti_karyawan;
-
--- Menggunakan Database
 USE db_cuti_karyawan;
 
--- Tabel 1: users
 CREATE TABLE `users` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `nik` CHAR(5) NOT NULL UNIQUE,
   `nama_lengkap` VARCHAR(100) NOT NULL,
   `jenis_kelamin` ENUM('L', 'P') NOT NULL,
   `alamat` TEXT,
-  `jabatan` VARCHAR(50) DEFAULT NULL,
-  `tanggal_bergabung` DATE DEFAULT NULL,
+  `jabatan` VARCHAR(50),
+  `tanggal_bergabung` DATE,
   `password` VARCHAR(255) NOT NULL,
   `role` ENUM('admin', 'user') NOT NULL
 ) ENGINE=InnoDB;
 
--- Tabel 2: pengajuan_cuti
 CREATE TABLE `pengajuan_cuti` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `user_id` INT NOT NULL,
@@ -110,88 +97,94 @@ CREATE TABLE `pengajuan_cuti` (
   `tanggal_selesai` DATE NOT NULL,
   `alasan` TEXT NOT NULL,
   `status` ENUM('Diajukan', 'Disetujui', 'Ditolak') NOT NULL DEFAULT 'Diajukan',
-  `tanggal_pengajuan` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `catatan_admin` TEXT DEFAULT NULL,
+  `tanggal_pengajuan` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `catatan_admin` TEXT,
   FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB;
 
--- Membuat Akun Admin Default
--- NIK: admin | Password: password
+-- Akun admin default
 INSERT INTO `users` (`nik`, `nama_lengkap`, `jenis_kelamin`, `password`, `role`) VALUES
 ('admin', 'Administrator', 'L', '$2y$10$iCi.C.C9A141c2E5P7d3guU0YmJ9V/r0M8aO4doqKAjFz.a/zKP.S', 'admin');
+```
 
-Catatan: Kode SQL di atas juga akan otomatis membuat satu akun Admin default untuk login pertama kali.
+### 3. Konfigurasi Database
 
-3. Konfigurasi Koneksi Database
-Buka file config/db.php.
+Edit file `config/db.php`:
 
-Sesuaikan konfigurasi berikut dengan pengaturan database Anda (jika berbeda dari default XAMPP).
-
+```php
 $db_host = 'localhost';
 $db_user = 'root';
-$db_pass = ''; // Biasanya kosong secara default
+$db_pass = ''; // kosong default XAMPP
 $db_name = 'db_cuti_karyawan';
+```
 
-4. Jalankan Aplikasi
-Pastikan Web Server (Apache) dan Database (MySQL) Anda berjalan dari control panel XAMPP.
+### 4. Jalankan Aplikasi
 
-Buka web browser Anda.
+1. Aktifkan Apache & MySQL via XAMPP
+2. Buka browser: `http://localhost/cuti-karyawan/`
 
-Akses aplikasi melalui URL: http://localhost/cuti-karyawan/
+### 5. Login
 
-Anda akan diarahkan ke halaman login.
+* **Admin**
 
-5. Login ke Aplikasi
-Login sebagai Admin:
+  * NIK: `10002`
+  * Password: `admin1234`
+* **User**
+* NIK: `10005`
+* Password: `user123`
 
-NIK: admin
+  * Tambahkan user baru via dashboard Admin.
 
-Password: password
+---
 
-Login sebagai User:
+## 📁 Struktur Folder & File
 
-Tambahkan user baru melalui dashboard Admin, lalu gunakan NIK dan password yang telah dibuat untuk login.
-
-📁 Struktur Folder dan File (Detail)
-Berikut adalah penjelasan rinci mengenai setiap file dalam proyek.
-
-/cuti-karyawan/
+```
+cuti-karyawan/
 │
 ├── config/
-│   └── db.php              # File konfigurasi koneksi ke database.
+│   └── db.php               # Konfigurasi koneksi database
 │
 ├── auth/
-│   ├── login.php           # Halaman form login.
-│   ├── proses_login.php    # Logika untuk verifikasi login dan pembuatan session.
-│   └── logout.php          # Logika untuk menghapus session dan logout.
+│   ├── login.php            # Form login
+│   ├── proses_login.php     # Proses login
+│   └── logout.php           # Logout
 │
 ├── layout/
-│   ├── header.php          # Bagian atas HTML (termasuk <head> dan navbar).
-│   ├── sidebar.php         # Menu navigasi samping yang dinamis sesuai role.
-│   └── footer.php          # Bagian bawah HTML (penutup tag dan script JS).
+│   ├── header.php           # Header + Navbar
+│   ├── sidebar.php          # Sidebar navigasi
+│   └── footer.php           # Footer + JS
 │
 ├── pages/
-│   ├── dashboard_admin.php # Tampilan dashboard untuk Admin.
-│   ├── dashboard_user.php  # Tampilan dashboard untuk User.
-│   ├── user_list.php       # Halaman daftar semua karyawan (Admin).
-│   ├── user_tambah.php     # Halaman form tambah karyawan (Admin).
-│   ├── user_edit.php       # Halaman form edit karyawan (Admin).
-│   ├── cuti_ajukan.php     # Halaman form pengajuan cuti (User).
-│   ├── cuti_riwayat.php    # Halaman riwayat cuti (User).
-│   ├── cuti_semua.php      # Halaman daftar semua cuti (Admin).
-│   ├── cuti_verifikasi.php # Halaman detail dan verifikasi cuti (Admin).
-│   └── profil.php          # Halaman profil dan ubah password (User).
+│   ├── dashboard_admin.php  # Dashboard Admin
+│   ├── dashboard_user.php   # Dashboard User
+│   ├── user_list.php        # Daftar karyawan
+│   ├── user_tambah.php      # Tambah karyawan
+│   ├── user_edit.php        # Edit karyawan
+│   ├── cuti_ajukan.php      # Ajukan cuti
+│   ├── cuti_riwayat.php     # Riwayat cuti (User)
+│   ├── cuti_semua.php       # Semua cuti (Admin)
+│   ├── cuti_verifikasi.php  # Verifikasi cuti
+│   └── profil.php           # Profil dan ganti password
 │
 ├── proses/
-│   ├── user_tambah.php     # Proses menyimpan karyawan baru.
-│   ├── user_edit.php       # Proses update data karyawan.
-│   ├── user_hapus.php      # Proses menghapus karyawan.
-│   ├── cuti_ajukan.php     # Proses menyimpan pengajuan cuti baru.
-│   ├── cuti_batal.php      # Proses membatalkan pengajuan cuti oleh user.
-│   ├── cuti_verifikasi.php # Proses verifikasi (setuju/tolak) cuti oleh admin.
-│   └── profil_update.php   # Proses update password oleh user.
+│   ├── user_tambah.php      # Proses tambah karyawan
+│   ├── user_edit.php        # Proses edit karyawan
+│   ├── user_hapus.php       # Hapus karyawan
+│   ├── cuti_ajukan.php      # Proses ajukan cuti
+│   ├── cuti_batal.php       # Batalkan cuti
+│   ├── cuti_verifikasi.php  # Verifikasi admin
+│   └── profil_update.php    # Update password
 │
 ├── export/
-│   └── excel_karyawan.php  # Proses untuk generate file Excel data karyawan.
+│   └── excel_karyawan.php   # Ekspor Excel
 │
-└── index.php               # File utama sebagai router untuk memuat semua halaman.
+└── index.php                # Router utama
+```
+
+---
+
+## 📣 Kontribusi
+
+Kontribusi sangat terbuka untuk pengembangan lebih lanjut!
+
