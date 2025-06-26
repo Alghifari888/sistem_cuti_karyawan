@@ -1,4 +1,4 @@
-# 💼 Sistem Informasi Manajemen Cuti Karyawan (PHP Native)
+# 💼 Sistem Informasi Manajemen Cuti Karyawan
 
 Sistem Informasi Manajemen Cuti Karyawan adalah aplikasi web sederhana berbasis **PHP Native** (tanpa framework) yang dirancang untuk mengelola proses **pengajuan dan persetujuan cuti karyawan**. Aplikasi ini menggunakan **MySQL** sebagai basis data dan **Bootstrap 5** untuk antarmuka pengguna yang responsif. Cocok digunakan sebagai pembelajaran bagi pemula yang ingin memahami konsep dasar pengembangan web menggunakan PHP.
 
@@ -187,7 +187,208 @@ cuti-karyawan/
 
 ---
 
-## 📣 Kontribusi
 
-Kontribusi sangat terbuka untuk pengembangan lebih lanjut!
+
+
+## 📣 Panduan Kontribusi
+
+Kontribusi terhadap proyek ini sangat terbuka! Ada dua cara utama untuk berkontribusi:
+Berikut adalah versi lengkap dan terperinci dari bagian **📣 Kontribusi** yang menjelaskan secara **detail dan aman** cara berkontribusi melalui **fork** maupun sebagai **kolaborator langsung** (misalnya di branch `Views`).
+---
+
+
+
+### 🚀 A. Sebagai Kolaborator Langsung (Sudah Diundang)
+
+Jika kamu **sudah diundang sebagai kolaborator GitHub**, ikuti panduan ini untuk berkontribusi secara langsung tanpa perlu fork.
+
+#### 1. Clone repository ke komputer kamu
+
+```bash
+git clone https://github.com/Alghifari888/sistem_cuti_karyawan.git
+cd sistem_cuti_karyawan
+```
+
+#### 2. Checkout ke branch `Views` (branch tempat pengembangan UI dilakukan)
+
+```bash
+git checkout -b Views origin/Views
+```
+
+#### 3. Lakukan perubahan (tambah fitur, edit tampilan, dsb)
+
+Setelah selesai edit:
+
+```bash
+git add .
+git commit -m "Deskripsi perubahan yang dilakukan"
+```
+
+#### 4. Push ke branch `Views` di GitHub
+
+```bash
+git push origin Views
+```
+
+#### 5. (Opsional) Buka Pull Request ke `main` (jika perubahan besar) (Konfirmasi Jika Melakukan nya Ke Alghifari888)
+
+> Meskipun kamu bisa push langsung ke `Views`, lebih baik ajukan **Pull Request** (PR) ke `main` agar perubahan bisa direview dulu sebelum digabung.
+
+#### 6. Selalu sinkronkan branch sebelum mulai kerja
+
+```bash
+git pull origin Views
+```
+
+---
+
+#### 🖥️ **Langkah Menjalankan Proyek Secara Lokal Setelah Clone**
+
+Setelah clone & checkout branch `Views`, kamu bisa langsung **menjalankan aplikasi di localhost** untuk melihat hasilnya secara langsung. Berikut langkahnya:
+
+##### a. Letakkan folder di direktori `htdocs` (jika pakai XAMPP)
+
+Contoh di Windows:
+
+```bash
+mv sistem_cuti_karyawan C:/xampp/htdocs/
+```
+
+Atau langsung clone di sana:
+
+```bash
+cd C:/xampp/htdocs
+git clone https://github.com/Alghifari888/sistem_cuti_karyawan.git
+cd sistem_cuti_karyawan
+git checkout -b Views origin/Views
+```
+
+##### b. Buat database di phpMyAdmin
+
+1. Buka `http://localhost/phpmyadmin`
+2. Buat database baru dengan nama:
+
+   ```
+   db_cuti_karyawan
+   ```
+3. Jalankan SQL setup yang ada di README (atau file `database.sql` jika tersedia)
+
+##### c. Konfigurasi koneksi database
+
+Buka file `config/db.php` dan pastikan isi seperti ini:
+
+```php
+$db_host = 'localhost';
+$db_user = 'root';
+$db_pass = ''; // default XAMPP
+$db_name = 'db_cuti_karyawan';
+```
+
+##### d. Jalankan aplikasi di browser
+
+1. Aktifkan **Apache & MySQL** di XAMPP
+2. Akses aplikasi di browser:
+
+   ```
+   http://localhost/sistem_cuti_karyawan/
+   ```
+
+##### e. Login ke aplikasi
+
+Gunakan akun bawaan:
+
+* **Admin**
+
+  * NIK: `admin`
+  * Password: `admin1234`
+
+---
+
+---
+
+### 🪄 B. Melalui Fork (Jika Belum Jadi Kolaborator)
+
+Kamu bisa tetap ikut berkontribusi meskipun belum diundang sebagai kolaborator dengan cara melakukan *fork*:
+
+#### 1. Fork repositori ini
+
+* Buka [repo ini](https://github.com/Alghifari888/sistem_cuti_karyawan)
+* Klik tombol **"Fork"** (kanan atas)
+* Repo akan tersalin ke akun GitHub kamu
+
+#### 2. Clone repo hasil fork ke lokal
+
+```bash
+git clone https://github.com/USERNAME-KAMU/sistem_cuti_karyawan.git
+cd sistem_cuti_karyawan
+```
+
+#### 3. Buat branch baru untuk fitur/perubahanmu
+
+```bash
+git checkout -b fitur-nama-fitur
+```
+
+Contoh:
+
+```bash
+git checkout -b fitur-export-pdf
+```
+
+#### 4. Lakukan perubahan → commit → push ke branch di repo kamu
+
+```bash
+git add .
+git commit -m "Tambah fitur export PDF laporan cuti"
+git push origin fitur-nama-fitur
+```
+
+#### 5. Buka Pull Request ke repo utama
+
+* Buka repo fork kamu di GitHub
+* Klik tombol **"Contribute" → "Open Pull Request"**
+* Pilih base: `main` atau `Views` dari repo `Alghifari888`
+* Pilih compare: branch milikmu (misalnya `fitur-export-pdf`)
+* Berikan deskripsi yang jelas
+
+---
+
+## ✅ Pedoman Kontribusi
+
+* Gunakan **branch per fitur** (bukan langsung edit `main`)
+* Deskripsikan commit dengan **jelas dan ringkas**
+* Gunakan format commit yang konsisten, contoh:
+
+  * `fitur: Tambah form cetak slip cuti`
+  * `fix: Perbaikan validasi form login`
+  * `refactor: Pecah layout jadi file terpisah`
+* Selalu lakukan `git pull` sebelum `push` untuk menghindari konflik
+* Uji aplikasi secara lokal sebelum push atau PR
+
+---
+
+## 📄 Contoh Alur Fork dan Pull Request
+
+```bash
+# Clone repo hasil fork
+git clone https://github.com/USERNAME-KAMU/sistem_cuti_karyawan.git
+cd sistem_cuti_karyawan
+
+# Buat branch baru
+git checkout -b fitur-tampilan-baru
+
+# Edit → commit → push
+git add .
+git commit -m "Tambah UI tabel cuti dengan style Bootstrap"
+git push origin fitur-tampilan-baru
+```
+
+Lalu buka GitHub → buat pull request ke:
+
+* Base repo: `Alghifari888/sistem_cuti_karyawan`
+* Branch: `Views` (kalau kamu kerja di tampilan) atau `main` (fitur umum)
+
+---
+
+
 
