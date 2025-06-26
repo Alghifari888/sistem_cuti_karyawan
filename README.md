@@ -9,6 +9,10 @@ Proyek ini cocok sebagai sarana pembelajaran bagi pemula yang ingin memahami pen
 
 ---
 
+## ✨ Kutipan
+
+> *"Aku tidak berilmu; yang berilmu hanyalah DIA. Jika tampak ilmu dariku, itu hanyalah pantulan dari Cahaya-Nya."*
+
 ![admin Dashboard](gambar1.png)
 ![user Dashboard](gambar2.png)
 
