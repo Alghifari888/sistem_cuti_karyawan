@@ -57,7 +57,6 @@ Aplikasi memiliki dua role pengguna dengan hak akses berbeda:
 
 ## 🚀 Panduan Instalasi
 
-📌 **Catatan**: Jika kamu ingin ikut mengembangkan proyek, langsung ke bagian [📣 Panduan Kontribusi](#panduan-kontribusi).
 
 ### 1. Unduh / Clone Proyek
 
