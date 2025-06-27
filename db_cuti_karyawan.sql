@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 26 Jun 2025 pada 02.35
+-- Waktu pembuatan: 27 Jun 2025 pada 06.49
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -57,9 +57,15 @@ CREATE TABLE `users` (
   `nik` char(5) NOT NULL,
   `nama_lengkap` varchar(100) NOT NULL,
   `jenis_kelamin` enum('L','P') NOT NULL,
+  `tanggal_lahir` date DEFAULT NULL,
   `alamat` text DEFAULT NULL,
+  `no_telepon` varchar(20) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
   `jabatan` varchar(50) DEFAULT NULL,
+  `departemen` varchar(50) DEFAULT NULL,
   `tanggal_bergabung` date DEFAULT NULL,
+  `status_karyawan` enum('Aktif','Tidak Aktif','Cuti','Resign') NOT NULL DEFAULT 'Aktif',
+  `gaji_pokok` decimal(10,2) DEFAULT NULL,
   `password` varchar(255) NOT NULL,
   `role` enum('admin','user') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -68,10 +74,10 @@ CREATE TABLE `users` (
 -- Dumping data untuk tabel `users`
 --
 
-INSERT INTO `users` (`id`, `nik`, `nama_lengkap`, `jenis_kelamin`, `alamat`, `jabatan`, `tanggal_bergabung`, `password`, `role`) VALUES
-(1, '10001', 'Andi Saputra', 'L', 'Jl. Merdeka No. 1', 'Staff IT', '2022-01-10', '$2y$10$8jljQvMcE.Rq3oVWW9k5E.kHdS6NsezHRjqGiZ/d9KHqSYIqqJwBi', 'user'),
-(2, '10002', 'Siti Nurhaliza', 'P', 'Jl. Melati No. 3', 'HRD', '2021-08-15', '$2a$12$fbtFo62AhaGxRTkTVmfKXuHCoVlZcz01FGFTQ5IDFWlX9l/fE69yO', 'admin'),
-(5, '10005', 'ahmad basuri', 'L', 'Jakarta Barat, Tomang', 'operator produksi', '2025-06-26', '$2y$10$itODpkpqPKc1IGMgd3pYYuONAOlF8SWLjAHJfnu6fdhzDi5fr4Szu', 'user');
+INSERT INTO `users` (`id`, `nik`, `nama_lengkap`, `jenis_kelamin`, `tanggal_lahir`, `alamat`, `no_telepon`, `email`, `jabatan`, `departemen`, `tanggal_bergabung`, `status_karyawan`, `gaji_pokok`, `password`, `role`) VALUES
+(1, '10001', 'Andi Saputra', 'L', NULL, 'Jl. Merdeka No. 1', NULL, NULL, 'Staff IT', NULL, '2022-01-10', 'Aktif', NULL, '$2y$10$8jljQvMcE.Rq3oVWW9k5E.kHdS6NsezHRjqGiZ/d9KHqSYIqqJwBi', 'user'),
+(2, '10002', 'Siti Nurhaliza', 'P', NULL, 'Jl. Melati No. 3', NULL, NULL, 'HRD', NULL, '2021-08-15', 'Aktif', NULL, '$2a$12$fbtFo62AhaGxRTkTVmfKXuHCoVlZcz01FGFTQ5IDFWlX9l/fE69yO', 'admin'),
+(5, '10005', 'ahmad basuri', 'L', NULL, 'Jakarta Barat, Tomang', NULL, NULL, 'operator produksi', NULL, '2025-06-26', 'Aktif', NULL, '$2y$10$itODpkpqPKc1IGMgd3pYYuONAOlF8SWLjAHJfnu6fdhzDi5fr4Szu', 'user');
 
 --
 -- Indexes for dumped tables
@@ -89,7 +95,8 @@ ALTER TABLE `pengajuan_cuti`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `nik` (`nik`);
+  ADD UNIQUE KEY `nik` (`nik`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- AUTO_INCREMENT untuk tabel yang dibuang
