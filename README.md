@@ -1,5 +1,3 @@
-
-
 # 💼 Sistem Informasi Manajemen Cuti Karyawan (PHP Native)
 
 
@@ -130,11 +128,13 @@ $db_name = 'db_cuti_karyawan';
 
 * **Admin**
 
-  * NIK: `admin`
+  * NIK: `10002`
   * Password: `admin1234`
 * **User**
+* NIK: `10005`
+* Password: `user1234`  
 
-  * Tambahkan manual via dashboard admin.
+
 
 ---
 
