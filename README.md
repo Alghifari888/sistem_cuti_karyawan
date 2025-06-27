@@ -1,45 +1,36 @@
+
+
 # 💼 Sistem Informasi Manajemen Cuti Karyawan (PHP Native)
 
-Sistem Informasi Manajemen Cuti Karyawan adalah aplikasi web sederhana berbasis **PHP Native** (tanpa framework) yang dirancang untuk mengelola proses **pengajuan dan persetujuan cuti karyawan**. Aplikasi ini menggunakan **MySQL** sebagai basis data dan **Bootstrap 5** untuk antarmuka pengguna yang responsif. Cocok digunakan sebagai pembelajaran bagi pemula yang ingin memahami konsep dasar pengembangan web menggunakan PHP.
+
+Sistem Informasi Manajemen Cuti Karyawan adalah aplikasi web sederhana berbasis **PHP Native** (tanpa framework) yang dirancang untuk mengelola proses **pengajuan dan persetujuan cuti karyawan**. Aplikasi ini menggunakan **MySQL** sebagai basis data dan **Bootstrap 5** untuk antarmuka pengguna yang responsif.
+
+Proyek ini cocok sebagai sarana pembelajaran bagi pemula yang ingin memahami pengembangan web dengan PHP tanpa framework.
 
 ---
+
+## ✨ Kutipan
+
+> *"Aku tidak berilmu; yang berilmu hanyalah DIA. Jika tampak ilmu dariku, itu hanyalah pantulan dari Cahaya-Nya."*
 
 ![admin Dashboard](gambar1.png)
 ![user Dashboard](gambar2.png)
 
 ## ✨ Fitur Utama
 
-Aplikasi memiliki dua jenis role dengan akses berbeda:
+Aplikasi memiliki dua role pengguna dengan hak akses berbeda:
 
 ### 👨‍💼 Admin
-
-* **Dashboard**: Menampilkan statistik seperti total karyawan, pengajuan cuti bulan ini, jumlah cuti disetujui, dan menunggu persetujuan.
-* **Manajemen Karyawan (CRUD)**:
-
-  * Tambah, lihat, edit, dan hapus data karyawan.
-  * NIK dan tanggal bergabung terisi otomatis saat input.
-* **Manajemen Pengajuan Cuti**:
-
-  * Lihat semua pengajuan cuti.
-  * Detail pengajuan + catatan.
-  * Verifikasi cuti: Setujui atau tolak.
-* **Export Data**:
-
-  * Ekspor data karyawan ke file Excel (`.xls`).
+- **Dashboard**: Statistik karyawan dan cuti.
+- **Manajemen Karyawan (CRUD)**: Tambah, ubah, hapus, dan lihat data karyawan.
+- **Manajemen Pengajuan Cuti**: Verifikasi, detail, dan catatan pengajuan cuti.
+- **Ekspor Data**: Ekspor data karyawan ke file Excel (`.xls`).
 
 ### 👩‍🔧 Karyawan (User)
-
-* **Dashboard Pribadi**: Ringkasan pengajuan cuti (diajukan, disetujui, ditolak, menunggu).
-* **Pengajuan Cuti**: Isi formulir pengajuan cuti baru.
-* **Riwayat Cuti**:
-
-  * Lihat histori dan status pengajuan.
-  * Lihat catatan dari admin.
-  * Batalkan pengajuan selama status masih “Diajukan”.
-* **Manajemen Profil**:
-
-  * Lihat data pribadi.
-  * Ubah password.
+- **Dashboard Pribadi**: Ringkasan pengajuan cuti.
+- **Ajukan Cuti**: Isi dan kirim form cuti.
+- **Riwayat Cuti**: Lihat histori & status pengajuan.
+- **Manajemen Profil**: Edit data pribadi & ubah password.
 
 ---
 
@@ -57,24 +48,30 @@ Aplikasi memiliki dua jenis role dengan akses berbeda:
 
 ## 📋 Spesifikasi Sistem
 
-* Web Server: Apache (disarankan: XAMPP / WAMP)
-* PHP: Versi 8.0 atau lebih tinggi
-* Database Server: MySQL / MariaDB
-* Browser: Google Chrome, Firefox, atau browser modern lainnya
+- Web Server: Apache (XAMPP / WAMP disarankan)
+- PHP: Versi 8.0 atau lebih tinggi
+- Database: MySQL / MariaDB
+- Browser: Chrome, Firefox, atau browser modern lainnya
 
 ---
 
 ## 🚀 Panduan Instalasi
 
+📌 **Catatan**: Jika kamu ingin ikut mengembangkan proyek, langsung ke bagian [📣 Panduan Kontribusi](#panduan-kontribusi).
+
 ### 1. Unduh / Clone Proyek
 
-* Letakkan folder proyek (misal: `cuti-karyawan`) di dalam direktori `htdocs` XAMPP.
-  **Contoh**: `C:\xampp\htdocs\cuti-karyawan`
+Letakkan proyek di direktori `htdocs` milik XAMPP:
+
+```bash
+git clone https://github.com/Alghifari888/sistem_cuti_karyawan.git
+cd sistem_cuti_karyawan
+````
 
 ### 2. Buat Database
 
 1. Buka `http://localhost/phpmyadmin`
-2. Buat database baru: `db_cuti_karyawan`
+2. Buat database baru bernama: `db_cuti_karyawan`
 3. Jalankan skrip SQL berikut:
 
 ```sql
@@ -117,26 +114,28 @@ Edit file `config/db.php`:
 ```php
 $db_host = 'localhost';
 $db_user = 'root';
-$db_pass = ''; // kosong default XAMPP
+$db_pass = ''; // default XAMPP
 $db_name = 'db_cuti_karyawan';
 ```
 
 ### 4. Jalankan Aplikasi
 
-1. Aktifkan Apache & MySQL via XAMPP
-2. Buka browser: `http://localhost/cuti-karyawan/`
+1. Aktifkan Apache & MySQL dari XAMPP
+2. Buka browser dan akses:
 
-### 5. Login
+   ```
+   http://localhost/sistem_cuti_karyawan/
+   ```
+
+### 5. Login Aplikasi
 
 * **Admin**
 
-  * NIK: `10002`
+  * NIK: `admin`
   * Password: `admin1234`
 * **User**
-* NIK: `10005`
-* Password: `user123`
 
-  * Tambahkan user baru via dashboard Admin.
+  * Tambahkan manual via dashboard admin.
 
 ---
 
@@ -144,50 +143,132 @@ $db_name = 'db_cuti_karyawan';
 
 ```
 cuti-karyawan/
-│
-├── config/
-│   └── db.php               # Konfigurasi koneksi database
-│
-├── auth/
-│   ├── login.php            # Form login
-│   ├── proses_login.php     # Proses login
-│   └── logout.php           # Logout
-│
-├── layout/
-│   ├── header.php           # Header + Navbar
-│   ├── sidebar.php          # Sidebar navigasi
-│   └── footer.php           # Footer + JS
-│
-├── pages/
-│   ├── dashboard_admin.php  # Dashboard Admin
-│   ├── dashboard_user.php   # Dashboard User
-│   ├── user_list.php        # Daftar karyawan
-│   ├── user_tambah.php      # Tambah karyawan
-│   ├── user_edit.php        # Edit karyawan
-│   ├── cuti_ajukan.php      # Ajukan cuti
-│   ├── cuti_riwayat.php     # Riwayat cuti (User)
-│   ├── cuti_semua.php       # Semua cuti (Admin)
-│   ├── cuti_verifikasi.php  # Verifikasi cuti
-│   └── profil.php           # Profil dan ganti password
-│
-├── proses/
-│   ├── user_tambah.php      # Proses tambah karyawan
-│   ├── user_edit.php        # Proses edit karyawan
-│   ├── user_hapus.php       # Hapus karyawan
-│   ├── cuti_ajukan.php      # Proses ajukan cuti
-│   ├── cuti_batal.php       # Batalkan cuti
-│   ├── cuti_verifikasi.php  # Verifikasi admin
-│   └── profil_update.php    # Update password
-│
-├── export/
-│   └── excel_karyawan.php   # Ekspor Excel
-│
-└── index.php                # Router utama
+├── auth/                 # Login, proses login, logout
+├── config/               # Koneksi database
+├── export/               # Ekspor Excel
+├── layout/               # Template header, sidebar, footer
+├── pages/                # Halaman utama (dashboard, cuti, profil)
+├── proses/               # Proses CRUD dan validasi
+└── index.php             # Entry point aplikasi
 ```
 
 ---
 
-## 📣 Kontribusi
+## 📣 Panduan Kontribusi
 
-Kontribusi sangat terbuka untuk pengembangan lebih lanjut!
+Kami sangat terbuka terhadap kontribusi! Ada dua cara untuk ikut berkontribusi:
+
+---
+
+### 🚀 A. Sebagai Kolaborator Langsung (Sudah Diundang)
+
+Jika kamu **sudah diundang sebagai kolaborator**, ikuti langkah berikut:
+
+#### 1. Clone repository
+
+```bash
+git clone https://github.com/Alghifari888/sistem_cuti_karyawan.git
+cd sistem_cuti_karyawan
+```
+
+#### 2. Checkout ke branch `Views`
+
+```bash
+git checkout -b Views origin/Views
+```
+
+#### 3. Lakukan perubahan
+
+```bash
+git add .
+git commit -m "Deskripsi perubahan"
+```
+
+#### 4. Push ke GitHub
+
+```bash
+git push origin Views
+```
+
+#### 5. (Opsional) Buka Pull Request ke `main`
+
+👉 Konfirmasi terlebih dahulu ke pemilik repo (`Alghifari888`) sebelum PR.
+
+#### 6. Sinkronisasi branch
+
+```bash
+git pull origin Views
+```
+
+#### 🖥️ Jalankan proyek secara lokal
+
+Jika belum pernah setup:
+
+1. Taruh folder di `C:/xampp/htdocs`
+2. Buat database `db_cuti_karyawan`
+3. Edit `config/db.php` sesuai lokal
+4. Jalankan via browser:
+
+   ```
+   http://localhost/sistem_cuti_karyawan/
+   ```
+
+---
+
+### 🪄 B. Melalui Fork (Jika Belum Jadi Kolaborator)
+
+1. **Fork** repo ini ke akun GitHub kamu.
+2. Clone hasil fork:
+
+```bash
+git clone https://github.com/USERNAME-KAMU/sistem_cuti_karyawan.git
+cd sistem_cuti_karyawan
+```
+
+3. Buat branch fitur:
+
+```bash
+git checkout -b fitur-export-pdf
+```
+
+4. Lakukan perubahan → commit → push:
+
+```bash
+git add .
+git commit -m "Tambah fitur export PDF"
+git push origin fitur-export-pdf
+```
+
+5. Buka Pull Request ke branch `main` atau `Views` di repo asli.
+
+---
+
+## ✅ Pedoman Kontribusi
+
+* Gunakan **branch terpisah** per fitur.
+* Commit jelas & ringkas, contoh:
+
+  * `fitur: Tambah export PDF`
+  * `fix: Perbaikan validasi login`
+* Selalu `git pull` sebelum `push`.
+* Uji coba lokal sebelum PR.
+
+---
+
+## 📄 Contoh Alur Fork & PR
+
+```bash
+git clone https://github.com/USERNAME-KAMU/sistem_cuti_karyawan.git
+cd sistem_cuti_karyawan
+git checkout -b fitur-tampilan-baru
+# lakukan perubahan
+git add .
+git commit -m "Tambah UI baru untuk tabel cuti"
+git push origin fitur-tampilan-baru
+```
+
+Lalu buka PR ke `Alghifari888/sistem_cuti_karyawan`, pilih branch `Views` atau `main`.
+
+Terima kasih telah berkontribusi! 🙌
+
 
