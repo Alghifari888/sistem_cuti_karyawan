@@ -6,8 +6,11 @@ if (basename($_SERVER['PHP_SELF']) == basename(__FILE__)) {
     die('Akses ditolak.');
 }
 
-// Query untuk mengambil semua data user, termasuk alamat
-$query = "SELECT id, nik, nama_lengkap, jenis_kelamin, alamat, jabatan, tanggal_bergabung FROM users WHERE role = 'user' ORDER BY nama_lengkap ASC";
+// Query untuk mengambil semua data user dengan kolom-kolom baru
+$query = "SELECT id, nik, nama_lengkap, jenis_kelamin, tanggal_lahir, alamat, no_telepon, email, jabatan, departemen, tanggal_bergabung, status_karyawan, gaji_pokok 
+          FROM users 
+          WHERE role = 'user' 
+          ORDER BY nama_lengkap ASC";
 $result = mysqli_query($koneksi, $query);
 ?>
 
@@ -37,16 +40,22 @@ if (isset($_SESSION['pesan'])) {
 <div class="card shadow-sm">
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered table-hover">
+            <table class="table table-bordered table-hover table-sm">
                 <thead class="table-light">
                     <tr>
                         <th class="text-center">No</th>
                         <th>NIK</th>
                         <th>Nama Lengkap</th>
                         <th>Jenis Kelamin</th>
-                        <th>Alamat</th>
+                        <th>Tanggal Lahir</th>
+                        <th>Departemen</th>
                         <th>Jabatan</th>
+                        <th>Email</th>
+                        <th>No. Telepon</th>
+                        <th>Alamat</th>
                         <th>Tanggal Bergabung</th>
+                        <th>Gaji Pokok</th>
+                        <th>Status</th>
                         <th class="text-center">Aksi</th>
                     </tr>
                 </thead>
@@ -58,10 +67,24 @@ if (isset($_SESSION['pesan'])) {
                                 <td class="text-center"><?php echo $no++; ?></td>
                                 <td><?php echo htmlspecialchars($row['nik']); ?></td>
                                 <td><?php echo htmlspecialchars($row['nama_lengkap']); ?></td>
-                                <td><?php echo ($row['jenis_kelamin'] == 'L') ? 'Laki-laki' : 'Perempuan'; ?></td>
-                                <td><?php echo htmlspecialchars($row['alamat']); ?></td>
+                                <td><?php echo ($row['jenis_kelamin'] == 'L') ? 'L' : 'P'; ?></td>
+                                <td><?php echo date('d M Y', strtotime($row['tanggal_lahir'])); ?></td>
+                                <td><?php echo htmlspecialchars($row['departemen']); ?></td>
                                 <td><?php echo htmlspecialchars($row['jabatan']); ?></td>
+                                <td><?php echo htmlspecialchars($row['email']); ?></td>
+                                <td><?php echo htmlspecialchars($row['no_telepon']); ?></td>
+                                <td style="min-width: 200px;"><?php echo htmlspecialchars($row['alamat']); ?></td>
                                 <td><?php echo date('d M Y', strtotime($row['tanggal_bergabung'])); ?></td>
+                                <td>Rp <?php echo number_format($row['gaji_pokok'], 0, ',', '.'); ?></td>
+                                <td>
+                                    <?php 
+                                    $status_class = 'bg-secondary'; // Default
+                                    if ($row['status_karyawan'] == 'Aktif') $status_class = 'bg-success';
+                                    elseif ($row['status_karyawan'] == 'Tidak Aktif' || $row['status_karyawan'] == 'Resign') $status_class = 'bg-danger';
+                                    elseif ($row['status_karyawan'] == 'Cuti') $status_class = 'bg-info';
+                                    ?>
+                                    <span class="badge <?php echo $status_class; ?>"><?php echo htmlspecialchars($row['status_karyawan']); ?></span>
+                                </td>
                                 <td class="text-center">
                                     <a href="index.php?page=user_edit&id=<?php echo $row['id']; ?>" class="btn btn-sm btn-warning me-2" title="Edit">
                                         <i class="bi bi-pencil-square"></i>
@@ -74,7 +97,7 @@ if (isset($_SESSION['pesan'])) {
                         <?php endwhile; ?>
                     <?php else: ?>
                         <tr>
-                            <td colspan="8" class="text-center">Belum ada data karyawan.</td>
+                            <td colspan="14" class="text-center">Belum ada data karyawan.</td>
                         </tr>
                     <?php endif; ?>
                 </tbody>
