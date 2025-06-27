@@ -1,5 +1,3 @@
-
-
 # 💼 Sistem Informasi Manajemen Cuti Karyawan (PHP Native)
 
 
@@ -57,7 +55,6 @@ Aplikasi memiliki dua role pengguna dengan hak akses berbeda:
 
 ## 🚀 Panduan Instalasi
 
-📌 **Catatan**: Jika kamu ingin ikut mengembangkan proyek, langsung ke bagian [📣 Panduan Kontribusi](#panduan-kontribusi).
 
 ### 1. Unduh / Clone Proyek
 
@@ -131,11 +128,12 @@ $db_name = 'db_cuti_karyawan';
 
 * **Admin**
 
-  * NIK: `admin`
+  * NIK: `10002`
   * Password: `admin1234`
 * **User**
-
-  * Tambahkan manual via dashboard admin.
+* NIK: `10005`
+* Password: `user1234`  
+* Tambahkan manual via dashboard admin.
 
 ---
 
