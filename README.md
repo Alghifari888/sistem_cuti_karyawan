@@ -133,8 +133,7 @@ $db_name = 'db_cuti_karyawan';
 * **User**
 * NIK: `10005`
 * Password: `user1234`  
-
-
+* Tambahkan manual via dashboard admin.
 
 ---
 
