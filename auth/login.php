@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Jika pengguna sudah login, alihkan ke dashboard yang sesuai
 if (isset($_SESSION['user_id'])) {
     if ($_SESSION['role'] == 'admin') {
         header("Location: ../index.php?page=dashboard");
@@ -20,66 +19,63 @@ if (isset($_SESSION['user_id'])) {
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .login-container {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .login-card {
-            max-width: 450px;
-            width: 100%;
-            border: none;
-            border-radius: 1rem;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
-        }
-    </style>
+    <link rel="stylesheet" href="login.css">
 </head>
 <body>
-    <div class="login-container">
-        <div class="card login-card">
-            <div class="card-body p-5">
-                <div class="text-center mb-4">
-                    <i class="bi bi-person-circle fs-1 text-primary"></i>
-                    <h1 class="h3 mb-3 fw-normal">Sistem Cuti Karyawan</h1>
-                    <p>Silakan login menggunakan NIK Anda.</p>
+    <div class="login-card">
+        <div class="text-center login-header mb-4">
+            <i class="bi bi-person-circle"></i>
+            <h1 class="h4">Sistem Cuti Karyawan</h1>
+            <p class="text-muted">Silakan login menggunakan NIK Anda</p>
+        </div>
+
+        <form action="proses_login.php" method="POST">
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="nik" name="nik" placeholder="NIK" required>
+                <label for="nik">NIK (Nomor Induk Karyawan)</label>
+            </div>
+            <div class="form-floating mb-4">
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                <label for="password">Password</label>
+            </div>
+
+            <button class="btn btn-primary w-100 py-2 mb-3" type="submit">Login</button>
+            <p class="text-center text-muted">&copy; <?= date('Y') ?> Sistem Cuti</p>
+        </form>
+    </div>
+
+    <!-- Modal Popup Error -->
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content shadow">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorModalLabel"><i class="bi bi-exclamation-triangle-fill text-danger"></i> Login Gagal</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
                 </div>
-                
-                <?php
-                // Tampilkan pesan error jika ada
-                if (isset($_GET['error'])) {
-                    $error_message = '';
-                    if ($_GET['error'] == '1') {
-                        $error_message = 'NIK atau Password salah!';
-                    } elseif ($_GET['error'] == '2') {
-                        $error_message = 'Terjadi kesalahan pada sistem.';
+                <div class="modal-body">
+                    <?php
+                    if (isset($_GET['error'])) {
+                        if ($_GET['error'] == '1') {
+                            echo 'NIK atau Password salah!';
+                        } elseif ($_GET['error'] == '2') {
+                            echo 'Terjadi kesalahan pada sistem.';
+                        }
                     }
-                    echo '<div class="alert alert-danger" role="alert">' . $error_message . '</div>';
-                }
-                ?>
-
-                <form action="proses_login.php" method="POST">
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="nik" name="nik" placeholder="NIK" required>
-                        <label for="nik">NIK (Nomor Induk Karyawan)</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
-                        <label for="password">Password</label>
-                    </div>
-
-                    <button class="w-100 btn btn-lg btn-primary" type="submit">Login</button>
-                    <p class="mt-5 mb-3 text-muted text-center">&copy; <?php echo date('Y'); ?></p>
-                </form>
+                    ?>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Bootstrap 5 JS -->
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Script Show Modal -->
+    <?php if (isset($_GET['error'])): ?>
+    <script>
+        const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+        errorModal.show();
+    </script>
+    <?php endif; ?>
 </body>
 </html>
