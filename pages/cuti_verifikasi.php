@@ -58,13 +58,12 @@ if (!$cuti) {
 $tgl_mulai = new DateTime($cuti['tanggal_mulai']);
 $tgl_selesai = new DateTime($cuti['tanggal_selesai']);
 $durasi = $tgl_selesai->diff($tgl_mulai)->days + 1;
-
 ?>
 
-<div class="card shadow-sm">
+<div class="card shadow-sm animate__animated animate__fadeIn">
     <div class="card-header d-flex justify-content-between align-items-center">
         <h5 class="card-title mb-0">Detail & Verifikasi Pengajuan Cuti</h5>
-        <a href="index.php?page=cuti_semua" class="btn btn-sm btn-secondary">
+        <a href="index.php?page=cuti_semua" class="btn btn-sm text-white" style="background: linear-gradient(135deg, #f66d6d, #e74c3c); border: none;">
             <i class="bi bi-arrow-left"></i> Kembali ke Daftar
         </a>
     </div>
@@ -118,7 +117,7 @@ $durasi = $tgl_selesai->diff($tgl_mulai)->days + 1;
                                 elseif ($status == 'Ditolak') $badge_class = 'bg-danger';
                                 else $badge_class = 'bg-warning text-dark';
                             ?>
-                            <span class="badge <?php echo $badge_class; ?>"><?php echo $status; ?></span>
+                            <span class="badge <?php echo $badge_class; ?> animate__animated animate__fadeInDown"><?php echo $status; ?></span>
                         </td>
                     </tr>
                 </table>
@@ -128,7 +127,7 @@ $durasi = $tgl_selesai->diff($tgl_mulai)->days + 1;
         <hr>
         
         <h6>Alasan Pengajuan Cuti</h6>
-        <div class="alert alert-light p-3">
+        <div class="alert alert-light p-3 animate__animated animate__fadeInUp">
              <?php echo nl2br(htmlspecialchars($cuti['alasan'])); ?>
         </div>
 
@@ -137,17 +136,17 @@ $durasi = $tgl_selesai->diff($tgl_mulai)->days + 1;
         <!-- Form Verifikasi -->
         <?php if ($cuti['status'] == 'Diajukan'): ?>
             <h6>Formulir Verifikasi</h6>
-            <form action="proses/cuti_verifikasi.php" method="POST">
+            <form action="proses/cuti_verifikasi.php" method="POST" onsubmit="return handleVerifikasi(this)">
                 <input type="hidden" name="id_pengajuan" value="<?php echo $cuti['id']; ?>">
                 <div class="mb-3">
                     <label for="catatan_admin" class="form-label">Catatan (Opsional)</label>
                     <textarea class="form-control" name="catatan_admin" id="catatan_admin" rows="3" placeholder="Berikan catatan jika perlu, misal: 'Disetujui, harap selesaikan pekerjaan X sebelum cuti.'"></textarea>
                 </div>
                 <div class="d-flex justify-content-end gap-2">
-                    <button type="submit" name="status" value="Ditolak" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin MENOLAK pengajuan ini?')">
+                    <button type="submit" name="status" value="Ditolak" class="btn btn-danger">
                         <i class="bi bi-x-circle-fill"></i> Tolak
                     </button>
-                    <button type="submit" name="status" value="Disetujui" class="btn btn-success" onclick="return confirm('Apakah Anda yakin ingin MENYETUJUI pengajuan ini?')">
+                    <button type="submit" name="status" value="Disetujui" class="btn btn-success">
                         <i class="bi bi-check-circle-fill"></i> Setujui
                     </button>
                 </div>
@@ -161,3 +160,38 @@ $durasi = $tgl_selesai->diff($tgl_mulai)->days + 1;
         <?php endif; ?>
     </div>
 </div>
+
+<!-- SweetAlert2 & Animate.css -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- Popup animasi -->
+<script>
+function handleVerifikasi(form) {
+    const status = form.querySelector('button[type="submit"]:focus').value;
+
+    Swal.fire({
+        title: (status === 'Disetujui') ? 'Setujui Pengajuan?' : 'Tolak Pengajuan?',
+        text: "Pastikan Anda sudah mengecek semua data.",
+        icon: (status === 'Disetujui') ? 'success' : 'warning',
+        showCancelButton: true,
+        confirmButtonColor: (status === 'Disetujui') ? '#28a745' : '#d33',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: (status === 'Disetujui') ? 'Ya, Setujui' : 'Ya, Tolak',
+        cancelButtonText: 'Batal',
+        reverseButtons: true,
+        showClass: {
+            popup: 'animate__animated animate__zoomIn'
+        },
+        hideClass: {
+            popup: 'animate__animated animate__fadeOutUp'
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            form.submit();
+        }
+    });
+
+    return false;
+}
+</script>

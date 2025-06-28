@@ -1,0 +1,48 @@
+.card {
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+.card:hover {
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+}
+.form-label {
+    font-weight: 500;
+}
+.form-control,
+.form-select {
+    border-radius: 8px;
+}
+.input-group-text {
+    background-color: #f8f9fa;
+    border-radius: 8px 0 0 8px;
+}
+.invalid-feedback {
+    font-size: 0.875em;
+    color: #dc3545;
+}
+textarea.form-control {
+    resize: vertical;
+}
+.btn-primary {
+    border-radius: 8px;
+}
+.btn-outline-secondary {
+    border-radius: 8px;
+}
+h6 {
+    font-weight: 600;
+    margin-top: 2rem;
+    color: #34495e;
+}
+.btn-kembali {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    transition: background 0.3s ease;
+}
+.btn-kembali:hover {
+    background: linear-gradient(135deg, #c0392b, #a93226);
+    color: #fff;
+}

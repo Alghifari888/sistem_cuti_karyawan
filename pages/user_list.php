@@ -1,7 +1,7 @@
 <?php
 // pages/user_list.php
 
-// Pastikan tidak ada yang bisa mengakses file ini secara langsung
+// Proteksi akses langsung
 if (basename($_SERVER['PHP_SELF']) == basename(__FILE__)) {
     die('Akses ditolak.');
 }
@@ -14,8 +14,12 @@ $query = "SELECT id, nik, nama_lengkap, jenis_kelamin, tanggal_lahir, alamat, no
 $result = mysqli_query($koneksi, $query);
 ?>
 
+<!-- Link CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<link rel="stylesheet" href="pages/css/user_list.css">
+
 <div class="d-flex justify-content-between align-items-center mb-3">
-    <h4>Daftar Karyawan</h4>
+    <h4 class="fade-slide">Daftar Karyawan</h4>
     <div class="btn-group">
         <a href="export/excel_karyawan.php" class="btn btn-success">
             <i class="bi bi-file-earmark-excel-fill"></i> Export ke Excel
@@ -27,17 +31,16 @@ $result = mysqli_query($koneksi, $query);
 </div>
 
 <?php 
-// Tampilkan notifikasi jika ada
 if (isset($_SESSION['pesan'])) {
     echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>
             {$_SESSION['pesan']}
             <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
           </div>";
-    unset($_SESSION['pesan']); // Hapus session setelah ditampilkan
+    unset($_SESSION['pesan']);
 }
 ?>
 
-<div class="card shadow-sm">
+<div class="card shadow-sm animate">
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-bordered table-hover table-sm">
@@ -63,7 +66,7 @@ if (isset($_SESSION['pesan'])) {
                     <?php if (mysqli_num_rows($result) > 0): ?>
                         <?php $no = 1; ?>
                         <?php while ($row = mysqli_fetch_assoc($result)): ?>
-                            <tr>
+                            <tr class="row-animate">
                                 <td class="text-center"><?php echo $no++; ?></td>
                                 <td><?php echo htmlspecialchars($row['nik']); ?></td>
                                 <td><?php echo htmlspecialchars($row['nama_lengkap']); ?></td>
@@ -73,17 +76,19 @@ if (isset($_SESSION['pesan'])) {
                                 <td><?php echo htmlspecialchars($row['jabatan']); ?></td>
                                 <td><?php echo htmlspecialchars($row['email']); ?></td>
                                 <td><?php echo htmlspecialchars($row['no_telepon']); ?></td>
-                                <td style="min-width: 200px;"><?php echo htmlspecialchars($row['alamat']); ?></td>
+                                <td class="alamat"><?php echo htmlspecialchars($row['alamat']); ?></td>
                                 <td><?php echo date('d M Y', strtotime($row['tanggal_bergabung'])); ?></td>
                                 <td>Rp <?php echo number_format($row['gaji_pokok'], 0, ',', '.'); ?></td>
                                 <td>
                                     <?php 
-                                    $status_class = 'bg-secondary'; // Default
+                                    $status_class = 'bg-secondary';
                                     if ($row['status_karyawan'] == 'Aktif') $status_class = 'bg-success';
                                     elseif ($row['status_karyawan'] == 'Tidak Aktif' || $row['status_karyawan'] == 'Resign') $status_class = 'bg-danger';
                                     elseif ($row['status_karyawan'] == 'Cuti') $status_class = 'bg-info';
                                     ?>
-                                    <span class="badge <?php echo $status_class; ?>"><?php echo htmlspecialchars($row['status_karyawan']); ?></span>
+                                    <span class="badge <?php echo $status_class; ?>">
+                                        <?php echo htmlspecialchars($row['status_karyawan']); ?>
+                                    </span>
                                 </td>
                                 <td class="text-center">
                                     <a href="index.php?page=user_edit&id=<?php echo $row['id']; ?>" class="btn btn-sm btn-warning me-2" title="Edit">
@@ -105,3 +110,14 @@ if (isset($_SESSION['pesan'])) {
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const rows = document.querySelectorAll('.row-animate');
+    rows.forEach((row, i) => {
+        setTimeout(() => {
+            row.style.opacity = '1';
+        }, i * 100);
+    });
+});
+</script>

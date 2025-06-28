@@ -1,0 +1,48 @@
+.card {
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+}
+.card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+}
+.table thead th {
+    background: linear-gradient(135deg, #fff8e1, #ffe082);
+    color: #5a4b2c;
+    text-align: center;
+}
+.table tbody tr {
+    transition: all 0.3s ease;
+    opacity: 0;
+    text-align: center;
+}
+.table tbody tr:hover {
+    background-color: #f8f9fa;
+    transform: scale(1.01);
+    cursor: pointer;
+}
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.row-animate {
+    animation: fadeUp 0.5s ease forwards;
+}
+.table td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 180px;
+    text-align: center;
+}
+.table td.alamat {
+    white-space: normal;
+    max-width: 250px;
+    text-align: center;
+}
+@media (max-width: 768px) {
+    .table-responsive {
+        overflow-x: auto;
+    }
+}
