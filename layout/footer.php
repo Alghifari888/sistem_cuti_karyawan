@@ -1,21 +1,21 @@
 <?php
 // layout/footer.php
-
-// Pastikan tidak ada yang bisa mengakses file ini secara langsung
 if (basename($_SERVER['PHP_SELF']) == basename(__FILE__)) {
     die('Akses ditolak.');
 }
 ?>
+
     </div> <!-- Menutup div class="row" dari header.php -->
 </div> <!-- Menutup div class="container-fluid" dari header.php -->
 
-<!-- Bootstrap 5 JS Bundle (termasuk Popper) -->
+<!-- Footer Visual -->
+<footer class="text-center text-muted py-3 mt-auto" style="background-color:#f8f9fa; border-top:1px solid #dee2e6;">
+    <small>© <?= date('Y') ?> Sistem Cuti Karyawan</small>
+</footer>
+
+<!-- Bootstrap 5 JS Bundle -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- (Opsional) Custom JS jika Anda punya -->
-<!-- <script src="assets/js/script.js"></script> -->
 
 </body>
 </html>
-
-
