@@ -17,14 +17,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nama_lengkap = mysqli_real_escape_string($koneksi, trim($_POST['nama_lengkap']));
     $password = mysqli_real_escape_string($koneksi, trim($_POST['password']));
     $jenis_kelamin = mysqli_real_escape_string($koneksi, $_POST['jenis_kelamin']);
-    $tanggal_lahir = mysqli_real_escape_string($koneksi, $_POST['tanggal_lahir']);
+    $tanggal_lahir = !empty($_POST['tanggal_lahir']) ? $_POST['tanggal_lahir'] : null;
     $email = mysqli_real_escape_string($koneksi, trim($_POST['email']));
     $no_telepon = mysqli_real_escape_string($koneksi, trim($_POST['no_telepon']));
     $alamat = mysqli_real_escape_string($koneksi, trim($_POST['alamat']));
     $departemen = mysqli_real_escape_string($koneksi, trim($_POST['departemen']));
     $jabatan = mysqli_real_escape_string($koneksi, trim($_POST['jabatan']));
     $status_karyawan = mysqli_real_escape_string($koneksi, $_POST['status_karyawan']);
-    $tanggal_bergabung = mysqli_real_escape_string($koneksi, $_POST['tanggal_bergabung']);
+    $tanggal_bergabung = !empty($_POST['tanggal_bergabung']) ? $_POST['tanggal_bergabung'] : null;
     $gaji_pokok = mysqli_real_escape_string($koneksi, $_POST['gaji_pokok']);
 
     // Validasi

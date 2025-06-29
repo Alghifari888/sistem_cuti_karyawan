@@ -54,6 +54,11 @@ mysqli_stmt_execute($stmt_recent);
 $result_recent_cuti = mysqli_stmt_get_result($stmt_recent);
 ?>
 
+<!-- Link CSS khusus dashboard -->
+ <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="pages/css/dashboard_karyawan.css">
+
 <div class="alert alert-info" role="alert">
     <h4 class="alert-heading">Selamat Datang, <?php echo htmlspecialchars($_SESSION['nama_lengkap']); ?>!</h4>
     <p>Ini adalah halaman dashboard Anda. Di sini Anda dapat melihat ringkasan pengajuan cuti Anda dan mengajukan cuti baru dengan mudah.</p>
@@ -64,22 +69,23 @@ $result_recent_cuti = mysqli_stmt_get_result($stmt_recent);
 <div class="row g-4 mb-4">
     <!-- Card Total Cuti -->
     <div class="col-md-6 col-xl-3">
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <div class="d-flex align-items-start">
-                    <div class="flex-grow-1">
-                        <h5 class="card-title mb-2">Total Pengajuan</h5>
-                        <h3 class="mb-0"><?php echo $total_cuti; ?></h3>
-                    </div>
-                    <div class="avatar">
-                        <div class="avatar-title rounded-circle bg-primary text-white fs-2">
-                            <i class="bi bi-journal-album"></i>
-                        </div>
+    <div class="card card-gold shadow-sm">
+        <div class="card-body">
+            <div class="d-flex align-items-start">
+                <div class="flex-grow-1">
+                    <h5 class="card-title mb-2">Total Pengajuan</h5>
+                    <h3 class="mb-0"><?php echo $total_cuti; ?></h3>
+                </div>
+                <div class="avatar">
+                    <div class="avatar-title rounded-circle fs-2">
+                        <i class="bi bi-journal-album"></i>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
+
     <!-- Card Disetujui -->
     <div class="col-md-6 col-xl-3">
         <div class="card shadow-sm">
@@ -136,7 +142,6 @@ $result_recent_cuti = mysqli_stmt_get_result($stmt_recent);
     </div>
 </div>
 
-
 <div class="card shadow-sm">
     <div class="card-header">
         <h5 class="card-title mb-0">5 Riwayat Pengajuan Cuti Terakhir Anda</h5>
@@ -190,20 +195,3 @@ $result_recent_cuti = mysqli_stmt_get_result($stmt_recent);
         </div>
     </div>
 </div>
-<style>
-.avatar {
-    width: 60px;
-    height: 60px;
-    display: inline-flex;
-    align-items-center;
-    justify-content: center;
-    margin-left: 1rem;
-}
-.avatar .avatar-title {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-</style>

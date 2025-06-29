@@ -1,18 +1,15 @@
 <?php
 // pages/cuti_verifikasi.php
 
-// Pastikan tidak ada yang bisa mengakses file ini secara langsung
 if (basename($_SERVER['PHP_SELF']) == basename(__FILE__)) {
     die('Akses ditolak.');
 }
 
-// Pastikan yang mengakses adalah admin
 if ($_SESSION['role'] != 'admin') {
     echo "<div class='alert alert-danger'>Halaman ini hanya untuk admin.</div>";
     return;
 }
 
-// Cek apakah ada ID pengajuan yang valid
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     echo "<div class='alert alert-danger'>Permintaan tidak valid. ID pengajuan tidak ditemukan.</div>";
     return;
@@ -20,7 +17,6 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
 
 $id_pengajuan = $_GET['id'];
 
-// Query untuk mengambil detail pengajuan cuti beserta data karyawannya
 $query = "
     SELECT 
         pc.id, 
@@ -48,13 +44,11 @@ $result = mysqli_stmt_get_result($stmt);
 $cuti = mysqli_fetch_assoc($result);
 mysqli_stmt_close($stmt);
 
-// Jika pengajuan tidak ditemukan
 if (!$cuti) {
     echo "<div class='alert alert-danger'>Data pengajuan cuti tidak ditemukan.</div>";
     return;
 }
 
-// Hitung durasi cuti
 $tgl_mulai = new DateTime($cuti['tanggal_mulai']);
 $tgl_selesai = new DateTime($cuti['tanggal_selesai']);
 $durasi = $tgl_selesai->diff($tgl_mulai)->days + 1;
@@ -69,7 +63,6 @@ $durasi = $tgl_selesai->diff($tgl_mulai)->days + 1;
     </div>
     <div class="card-body">
         <div class="row">
-            <!-- Kolom Detail Karyawan -->
             <div class="col-md-6">
                 <h6>Data Karyawan</h6>
                 <table class="table table-sm table-borderless">
@@ -85,16 +78,15 @@ $durasi = $tgl_selesai->diff($tgl_mulai)->days + 1;
                         <td><strong>Jabatan</strong></td>
                         <td>: <?php echo htmlspecialchars($cuti['jabatan']); ?></td>
                     </tr>
-                     <tr>
+                    <tr>
                         <td><strong>Tanggal Bergabung</strong></td>
                         <td>: <?php echo date('d F Y', strtotime($cuti['tanggal_bergabung'])); ?></td>
                     </tr>
                 </table>
             </div>
-            <!-- Kolom Detail Cuti -->
             <div class="col-md-6">
                 <h6>Data Pengajuan Cuti</h6>
-                 <table class="table table-sm table-borderless">
+                <table class="table table-sm table-borderless">
                     <tr>
                         <td style="width: 150px;"><strong>Tanggal Pengajuan</strong></td>
                         <td>: <?php echo date('d M Y, H:i', strtotime($cuti['tanggal_pengajuan'])); ?></td>
@@ -107,7 +99,7 @@ $durasi = $tgl_selesai->diff($tgl_mulai)->days + 1;
                         <td><strong>Durasi</strong></td>
                         <td>: <?php echo $durasi; ?> hari</td>
                     </tr>
-                     <tr>
+                    <tr>
                         <td><strong>Status Saat Ini</strong></td>
                         <td>: 
                             <?php
@@ -136,17 +128,18 @@ $durasi = $tgl_selesai->diff($tgl_mulai)->days + 1;
         <!-- Form Verifikasi -->
         <?php if ($cuti['status'] == 'Diajukan'): ?>
             <h6>Formulir Verifikasi</h6>
-            <form action="proses/cuti_verifikasi.php" method="POST" onsubmit="return handleVerifikasi(this)">
+            <form id="verifikasiForm" action="proses/cuti_verifikasi.php" method="POST">
                 <input type="hidden" name="id_pengajuan" value="<?php echo $cuti['id']; ?>">
+                <input type="hidden" name="status" id="status_input">
                 <div class="mb-3">
                     <label for="catatan_admin" class="form-label">Catatan (Opsional)</label>
-                    <textarea class="form-control" name="catatan_admin" id="catatan_admin" rows="3" placeholder="Berikan catatan jika perlu, misal: 'Disetujui, harap selesaikan pekerjaan X sebelum cuti.'"></textarea>
+                    <textarea class="form-control" name="catatan_admin" id="catatan_admin" rows="3"></textarea>
                 </div>
                 <div class="d-flex justify-content-end gap-2">
-                    <button type="submit" name="status" value="Ditolak" class="btn btn-danger">
+                    <button type="button" class="btn btn-danger" onclick="submitVerifikasi('Ditolak')">
                         <i class="bi bi-x-circle-fill"></i> Tolak
                     </button>
-                    <button type="submit" name="status" value="Disetujui" class="btn btn-success">
+                    <button type="button" class="btn btn-success" onclick="submitVerifikasi('Disetujui')">
                         <i class="bi bi-check-circle-fill"></i> Setujui
                     </button>
                 </div>
@@ -161,37 +154,27 @@ $durasi = $tgl_selesai->diff($tgl_mulai)->days + 1;
     </div>
 </div>
 
-<!-- SweetAlert2 & Animate.css -->
+<!-- SweetAlert & Animate.css -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<!-- Popup animasi -->
 <script>
-function handleVerifikasi(form) {
-    const status = form.querySelector('button[type="submit"]:focus').value;
+function submitVerifikasi(status) {
+    document.getElementById('status_input').value = status;
 
     Swal.fire({
-        title: (status === 'Disetujui') ? 'Setujui Pengajuan?' : 'Tolak Pengajuan?',
-        text: "Pastikan Anda sudah mengecek semua data.",
-        icon: (status === 'Disetujui') ? 'success' : 'warning',
+        title: status === 'Disetujui' ? 'Setujui Pengajuan?' : 'Tolak Pengajuan?',
+        text: "Yakin ingin mengubah status pengajuan cuti ini?",
+        icon: status === 'Disetujui' ? 'success' : 'warning',
         showCancelButton: true,
-        confirmButtonColor: (status === 'Disetujui') ? '#28a745' : '#d33',
+        confirmButtonColor: status === 'Disetujui' ? '#28a745' : '#d33',
         cancelButtonColor: '#6c757d',
-        confirmButtonText: (status === 'Disetujui') ? 'Ya, Setujui' : 'Ya, Tolak',
-        cancelButtonText: 'Batal',
-        reverseButtons: true,
-        showClass: {
-            popup: 'animate__animated animate__zoomIn'
-        },
-        hideClass: {
-            popup: 'animate__animated animate__fadeOutUp'
-        }
+        confirmButtonText: 'Ya, Lanjutkan',
+        cancelButtonText: 'Batal'
     }).then((result) => {
         if (result.isConfirmed) {
-            form.submit();
+            document.getElementById('verifikasiForm').submit();
         }
     });
-
-    return false;
 }
 </script>

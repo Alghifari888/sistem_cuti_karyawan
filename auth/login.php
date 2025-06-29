@@ -2,11 +2,7 @@
 session_start();
 
 if (isset($_SESSION['user_id'])) {
-    if ($_SESSION['role'] == 'admin') {
-        header("Location: ../index.php?page=dashboard");
-    } else {
-        header("Location: ../index.php?page=dashboard");
-    }
+    header("Location: ../index.php?page=dashboard");
     exit();
 }
 ?>
@@ -24,7 +20,8 @@ if (isset($_SESSION['user_id'])) {
 <body>
     <div class="login-card">
         <div class="text-center login-header mb-4">
-            <i class="bi bi-person-circle"></i>
+            <!-- Ganti icon orang dengan logo -->
+            <img src="../asset/img/logo.png" alt="Logo" width="120">
             <h1 class="h4">Sistem Cuti Karyawan</h1>
             <p class="text-muted">Silakan login menggunakan NIK Anda</p>
         </div>
