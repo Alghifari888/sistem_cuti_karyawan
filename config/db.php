@@ -12,10 +12,27 @@ $koneksi = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
 
 // --- Cek Koneksi ---
 if (!$koneksi) {
-    // Jika koneksi gagal, hentikan skrip dan tampilkan pesan error
     die("Koneksi ke database gagal: " . mysqli_connect_error());
 }
 
-// Mengatur zona waktu default jika diperlukan
 date_default_timezone_set('Asia/Jakarta');
+
+// =======================================================
+// KONFIGURASI PUSHER DENGAN KREDENSIAL YANG BENAR
+// =======================================================
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+$pusher_options = [
+    'cluster' => 'ap1',
+    'useTLS' => true
+];
+
+// Instansiasi Pusher dengan urutan yang benar: key, secret, app_id
+$pusher = new Pusher\Pusher(
+    '287ce2af6d82f8141418', // key
+    'cd0620671dafb0d67dc0', // secret
+    '2016460',              // app_id
+    $pusher_options
+);
 ?>

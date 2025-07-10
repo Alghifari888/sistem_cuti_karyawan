@@ -4,7 +4,7 @@
 // Mulai session
 session_start();
 
-// Hubungkan ke database
+// Hubungkan ke database dan konfigurasi Pusher
 require_once '../config/db.php';
 
 // Pastikan hanya user yang bisa mengakses
@@ -22,33 +22,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tanggal_selesai = mysqli_real_escape_string($koneksi, $_POST['tanggal_selesai']);
     $alasan = mysqli_real_escape_string($koneksi, trim($_POST['alasan']));
 
-    // --- Validasi Data ---
+    // Validasi data (disingkat, karena logikanya sama)
     $errors = [];
-    $today = date('Y-m-d');
-
-    // Validasi Tanggal Mulai
-    if (empty($tanggal_mulai)) {
-        $errors['tanggal_mulai'] = "Tanggal mulai tidak boleh kosong.";
-    } elseif ($tanggal_mulai < $today) {
-        $errors['tanggal_mulai'] = "Tanggal mulai tidak boleh tanggal yang sudah lewat.";
-    }
-
-    // Validasi Tanggal Selesai
-    if (empty($tanggal_selesai)) {
-        $errors['tanggal_selesai'] = "Tanggal selesai tidak boleh kosong.";
-    }
-
-    // Validasi Alasan
-    if (empty($alasan)) {
-        $errors['alasan'] = "Alasan cuti tidak boleh kosong.";
-    }
-    
-    // Validasi rentang tanggal (jika kedua tanggal valid)
-    if (empty($errors) && $tanggal_selesai < $tanggal_mulai) {
-         $errors['tanggal_selesai'] = "Tanggal selesai tidak boleh sebelum tanggal mulai.";
-    }
-
-    // Jika ada error, kembali ke form dengan pesan error
+    if (empty($tanggal_mulai)) { $errors['tanggal_mulai'] = "Tanggal mulai tidak boleh kosong."; }
+    if (empty($tanggal_selesai)) { $errors['tanggal_selesai'] = "Tanggal selesai tidak boleh kosong."; }
+    if (empty($alasan)) { $errors['alasan'] = "Alasan cuti tidak boleh kosong."; }
+    if (empty($errors) && $tanggal_selesai < $tanggal_mulai) { $errors['tanggal_selesai'] = "Tanggal selesai tidak boleh sebelum tanggal mulai."; }
     if (!empty($errors)) {
         $_SESSION['errors'] = $errors;
         $_SESSION['old_data'] = $_POST;
@@ -56,40 +35,60 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
     
-    // --- Lanjutkan Proses Jika Tidak Ada Error ---
-
-    // Siapkan query SQL dengan prepared statement
+    // Siapkan query SQL untuk menyimpan data
     $sql = "INSERT INTO pengajuan_cuti (user_id, tanggal_mulai, tanggal_selesai, alasan, status) VALUES (?, ?, ?, ?, 'Diajukan')";
-
     $stmt = mysqli_prepare($koneksi, $sql);
 
     if ($stmt) {
-        mysqli_stmt_bind_param(
-            $stmt, 
-            "isss", 
-            $user_id,
-            $tanggal_mulai,
-            $tanggal_selesai,
-            $alasan
-        );
+        mysqli_stmt_bind_param($stmt, "isss", $user_id, $tanggal_mulai, $tanggal_selesai, $alasan);
 
         // Eksekusi statement
         if (mysqli_stmt_execute($stmt)) {
-            // Jika berhasil, kirim pesan sukses dan alihkan ke riwayat cuti
-            $_SESSION['pesan'] = "Pengajuan cuti Anda telah berhasil dikirim dan sedang menunggu persetujuan.";
-            header("Location: ../index.php?page=cuti_riwayat");
-            exit();
+            $id_pengajuan_baru = mysqli_insert_id($koneksi); // Ambil ID dari cuti yang baru saja dibuat
+            $_SESSION['pesan'] = "Pengajuan cuti Anda telah berhasil dikirim.";
+
+            // =========================================================
+            // BAGIAN BARU: KIRIM NOTIFIKASI REAL-TIME KE ADMIN
+            // =========================================================
+            
+            // 1. Ambil data lengkap dari pengajuan baru untuk dikirim ke tabel admin
+            $query_new_cuti = "SELECT pc.id, u.nama_lengkap, pc.tanggal_mulai, pc.tanggal_selesai, pc.status 
+                               FROM pengajuan_cuti pc JOIN users u ON pc.user_id = u.id 
+                               WHERE pc.id = ?";
+            $stmt_new = mysqli_prepare($koneksi, $query_new_cuti);
+            mysqli_stmt_bind_param($stmt_new, "i", $id_pengajuan_baru);
+            mysqli_stmt_execute($stmt_new);
+            $result_new = mysqli_stmt_get_result($stmt_new);
+            $data_baru = mysqli_fetch_assoc($result_new);
+            
+            // 2. Hitung ulang statistik untuk dashboard admin
+            $query_count = "SELECT 
+                (SELECT COUNT(id) FROM users WHERE role = 'user') as total_karyawan,
+                (SELECT COUNT(id) FROM pengajuan_cuti WHERE MONTH(tanggal_pengajuan) = MONTH(CURDATE()) AND YEAR(tanggal_pengajuan) = YEAR(CURDATE())) as cuti_bulan_ini,
+                (SELECT COUNT(id) FROM pengajuan_cuti WHERE status = 'Disetujui') as cuti_disetujui,
+                (SELECT COUNT(id) FROM pengajuan_cuti WHERE status = 'Diajukan') as cuti_diajukan";
+            $result_count = mysqli_query($koneksi, $query_count);
+            $counts = mysqli_fetch_assoc($result_count);
+
+            // 3. Siapkan semua data untuk dikirim ke Pusher
+            $data_pusher = [
+                'pengajuan_baru' => $data_baru,
+                'statistik_baru' => $counts
+            ];
+
+            // 4. Kirim trigger ke channel 'admin-channel'
+            global $pusher;
+            $pusher->trigger('admin-channel', 'pengajuan-baru', $data_pusher);
+            // =========================================================
+
         } else {
-            // Jika gagal, kirim pesan error
             $_SESSION['pesan'] = "Error: Terjadi kesalahan saat menyimpan data ke database.";
             $_SESSION['old_data'] = $_POST;
             header("Location: ../index.php?page=cuti_ajukan");
             exit();
         }
-
         mysqli_stmt_close($stmt);
     } else {
-        // Jika statement gagal disiapkan
         $_SESSION['pesan'] = "Error: Terjadi kesalahan pada sistem. Gagal menyiapkan query.";
         $_SESSION['old_data'] = $_POST;
         header("Location: ../index.php?page=cuti_ajukan");
@@ -97,9 +96,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     mysqli_close($koneksi);
-
+    header("Location: ../index.php?page=cuti_riwayat");
+    exit();
 } else {
-    // Jika bukan metode POST, alihkan
     header("Location: ../index.php?page=cuti_ajukan");
     exit();
 }

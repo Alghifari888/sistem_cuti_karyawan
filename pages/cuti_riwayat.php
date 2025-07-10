@@ -15,7 +15,6 @@ if ($_SESSION['role'] != 'user') {
 $user_id = $_SESSION['user_id'];
 
 // Query untuk mengambil semua riwayat cuti milik user yang sedang login
-// Diurutkan dari yang paling baru
 $query = "SELECT id, tanggal_pengajuan, tanggal_mulai, tanggal_selesai, alasan, status, catatan_admin 
           FROM pengajuan_cuti 
           WHERE user_id = ? 
@@ -25,7 +24,6 @@ $stmt = mysqli_prepare($koneksi, $query);
 mysqli_stmt_bind_param($stmt, "i", $user_id);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
-
 ?>
 
 <?php 
@@ -39,7 +37,7 @@ if (isset($_SESSION['pesan'])) {
             {$_SESSION['pesan']}
             <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
           </div>";
-    unset($_SESSION['pesan']); // Hapus session setelah ditampilkan
+    unset($_SESSION['pesan']);
 }
 ?>
 
@@ -66,7 +64,7 @@ if (isset($_SESSION['pesan'])) {
                     <?php if (mysqli_num_rows($result) > 0): ?>
                         <?php $no = 1; ?>
                         <?php while ($row = mysqli_fetch_assoc($result)): ?>
-                            <tr>
+                            <tr id="cuti-row-<?php echo $row['id']; ?>">
                                 <td class="text-center"><?php echo $no++; ?></td>
                                 <td><?php echo date('d M Y, H:i', strtotime($row['tanggal_pengajuan'])); ?></td>
                                 <td><?php echo date('d M Y', strtotime($row['tanggal_mulai'])); ?></td>
@@ -84,7 +82,7 @@ if (isset($_SESSION['pesan'])) {
                                         $badge_class = 'bg-warning text-dark';
                                     }
                                     ?>
-                                    <span class="badge <?php echo $badge_class; ?>"><?php echo $status; ?></span>
+                                    <span id="status-badge-<?php echo $row['id']; ?>" class="badge <?php echo $badge_class; ?>"><?php echo $status; ?></span>
                                 </td>
                                 <td><?php echo htmlspecialchars($row['catatan_admin'] ?? 'Tidak ada catatan.'); ?></td>
                                 <td class="text-center">
